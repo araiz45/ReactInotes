@@ -10,6 +10,7 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import About from './components/About';
 import NoteState from './context/notes/NoteState';
+import Alert from './components/Alert';
 function App() {
   return (
     <>
@@ -19,6 +20,7 @@ function App() {
     <BrowserRouter>
     <NoteState>
       <Navbar/>
+      <Alert message={"this is amazing react appliation"}/>
       <div className="container">
       <Routes>
         <Route exact path="/" element={<Home />} />

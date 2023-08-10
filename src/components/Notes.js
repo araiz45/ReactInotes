@@ -9,7 +9,7 @@ export const Notes = () => {
     <div className="row my-3 gap-3 text-center justify-content-center">
     <h2>Your notes</h2>
     {state.map((note) =>{
-        return <NoteItem note={note}/>
+        return <NoteItem note={note} key={note._id}/>
     })}
   </div>
   )
