@@ -2,91 +2,37 @@ import NoteContext from './NoteContext';
 import { useState } from 'react';
 
 const NoteState = (props) =>{
-  const initailState = [
-    {
-      "_id": "64d382b26fdfsda7bcc6a3b1f6fb",
-      "user": "64d382976fa7bcc6a3b1f6f8",
-      "title": "this is xtitle",
-      "description": "thisdf ssdasdsazidsfs me",
-      "tag": "private",
-      "date": "1691583053767",
-      "__v": 0
-    }
-    ,
-    {
-      "_id": "64d383796fa7dfsdfbccsdfere6a3b1f701",
-      "user": "64d382976fa7bcc6a3fb1f6f8",
-      "title": "this is title",
-      "description": "this is me",
-      "tag": "private",
-      "date": "1691583053767",
-      "__v": 0
-    }
-    ,
-    {
-      "_id": "64d383796fa7bccsdfsd6a34d3b1f701",
-      "user": "64d382976fa7bcc6a3b1f6f8",
-      "title": "this is title",
-      "description": "this is me",
-      "tag": "private",
-      "date": "1691583053767",
-      "__v": 0
-    }
-    ,
-    {
-      "_id": "64d383796fa7bcc6a3sewreb1f701",
-      "user": "64d382976fa7bcc6a3b1f6f8",
-      "title": "this is title",
-      "description": "this is me",
-      "tag": "private",
-      "date": "1691583053767",
-      "__v": 0
-    }
-    ,
-    {
-      "_id": "64d383796fa7bccdfafac6a3b1f701",
-      "user": "64d382976fa7bcc6a3b1f6f8",
-      "title": "this is title",
-      "description": "this is me",
-      "tag": "private",
-      "date": "1691583053767",
-      "__v": 0
-    }
-    ,
-    {
-      "_id": "64d383796fa7bcc6a3b1f7asdfsdfc01",
-      "user": "64d382976fa7bcc6a3b1f6f8",
-      "title": "this is title",
-      "description": "this is me",
-      "tag": "private",
-      "date": "1691583053767",
-      "__v": 0
-    }
-    ,
-    {
-      "_id": "64d383796fa7bczcvzc6a3b1f701",
-      "user": "64d382976fva7bcc6a3b1f6f8",
-      "title": "this is title",
-      "description": "this is me",
-      "tag": "private",
-      "date": "1691583053767",
-      "__v": 0
-    }
-    ,
-    {
-      "_id": "64d383796fa7basdfacc6a3b1f701",
-      "user": "64d382976fa7bcc6a3b1f6f8",
-      "title": "this is title",
-      "description": "this is me",
-      "tag": "private",
-      "date": "1691583053767",
-      "__v": 0
-    }
-    
-  ]
+  const host = 'http://localhost:5000'
+  const initailState = []
   const [state, setState] = useState(initailState);
-  const addNote = (title, description, tag) =>{
-    console.log("adding a new note")
+
+  
+  const getNotes = async () =>{
+    const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+      method: "GET", 
+      headers: {
+        "Content-Type": "application/json",
+        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkNTY1MTdjMGE3YjAyZDFmNTZlMDc1In0sImlhdCI6MTY5MTcwNzAwNH0.NT8A8D9PTMN0Wo4gzyOlY5EtkFTPOwfwlv0C05NBiNI'
+       
+      }
+    })
+    const json = await response.json();
+    console.log(json)
+    setState(json)
+  }
+
+  const addNote = async (title, description, tag) =>{
+    const response = await fetch(`${host}/api/notes/addnotes`, {
+      method: "POST", 
+      headers: {
+        "Content-Type": "application/json",
+        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkNTY1MTdjMGE3YjAyZDFmNTZlMDc1In0sImlhdCI6MTY5MTcwNzAwNH0.NT8A8D9PTMN0Wo4gzyOlY5EtkFTPOwfwlv0C05NBiNI'
+       
+      },
+      body: JSON.stringify(title, description, tag), 
+    });
+    const json =  await response.json(); 
+    console.log(json)
       const note = {
         "_id": Date.now(),
         "user": "64d382976fa7bcc6a3b1f6f8 [Added]",
@@ -98,14 +44,38 @@ const NoteState = (props) =>{
       };
       setState(state.concat(note))
   }
-  const deleteNote = () =>{
-    
+  const deleteNote = (id) =>{
+    console.log("delete notes with id " + id)
+    const newState = state.filter((note) =>{
+        return note._id!==id;
+    })
+    setState(newState)
   }
-  const editNote = () =>{
+  const editNote = async (id, title, description, tag) =>{
+    const response = await fetch(`${host}/api/notes/updatenotes/${id}`, {
+      method: "POST", 
+      headers: {
+        "Content-Type": "application/json",
+        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkMzgyOTc2ZmE3YmNjNmEzYjFmNmY4In0sImlhdCI6MTY5MTU4MzI3N30.-3fOWaRRM3AmcMo72_kCXKTBNr7zPFFU4oAHaLSBsIA'
+       
+      },
+      body: JSON.stringify(title, description, tag), 
+    });
+  
+      for (let index = 0; index < state.length; index++) {
+        const element = state[index];
+        if (element._id === id) {
+          element.title = title;
+          element.description = description;
+          element.tag = tag;
+        }else{
 
+        }
+        
+      }
   }
   return (
-    <NoteContext.Provider value={{state, addNote, deleteNote, editNote}}>
+    <NoteContext.Provider value={{state, addNote, deleteNote, editNote, getNotes}}>
       {props.children}
     </NoteContext.Provider>
   )
