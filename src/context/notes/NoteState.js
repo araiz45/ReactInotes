@@ -64,17 +64,7 @@ const NoteState = (props) =>{
       },
       body: JSON.stringify({title: title, description: description, tag: tag}), 
     });
-      // for (let index = 0; index < state.length; index++) {
-      //   const element = state[index];
-      //   if (element._id === id) {
-      //     element.title = title;
-      //     element.description = description;
-      //     element.tag = tag;
-      //   }else{
 
-      //   }
-        
-      // }
     getNotes();
   }
   return (

@@ -11,13 +11,16 @@ export const Notes = () => {
     getNotes();
   }, []);
   const ref = useRef(null);
+  const closeRef = useRef(null)
   const updateNotes = (currentNote) => {
     setNote({id: currentNote._id,utitle: currentNote.title, udescription: currentNote.description, utag: currentNote.tag})
     ref.current.click();
   };
   const handleClick = (e) => {
     e.preventDefault();
+    closeRef.current.click();
     console.log("hited", note.id)
+
     editNote(note.id,note.utitle, note.udescription, note.utag)
   }
   const onChange = (e) => {
@@ -63,7 +66,7 @@ export const Notes = () => {
               </form>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+              <button type="button" hidden className="btn btn-secondary" ref={closeRef} data-bs-dismiss="modal">
                 Close
               </button>
               <button type="button" className="btn btn-primary" onClick={handleClick}>
