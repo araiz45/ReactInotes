@@ -8,7 +8,11 @@ export default function AddNote() {
     const handleClick = (e) =>{
         e.preventDefault();
         console.log("hited", note)
-        addNote(note.title, note.description, note.tag)
+        addNote(note.title, note.description, note.tag).then(() =>{
+          document.getElementById("title").value = "";
+          document.getElementById("description").value = "";
+          document.getElementById("tag").value = "";
+         })
     }
     const onChange = (e) =>{
         setNote({...note, [e.target.name]: e.target.value})
@@ -22,12 +26,12 @@ export default function AddNote() {
         <input type="text" className="form-control" name="title" id="title" aria-describedby="textHelp" onChange={onChange}/>
       </div>
       <div className="mb-3">
-        <label htmlFor="description" className="form-label">Password</label>
+        <label htmlFor="description" className="form-label">Description</label>
         <input type="text" className="form-control" id="description" name="description" onChange={onChange}/>
       </div>
-      <div className="mb-3 form-check">
-        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-        <label className="form-check-label" htmlFor="exampleCheck1" >Check me out</label>
+      <div className="mb-3">
+        <label htmlFor="tag" className="form-label">tag</label>
+        <input type="text" className="form-control" id="tag" name="tag" onChange={onChange}/>
       </div>
       <button type="submit" className="btn btn-primary" onClick={handleClick}>Add note</button>
     </form>
