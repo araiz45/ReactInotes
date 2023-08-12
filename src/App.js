@@ -20,7 +20,6 @@ function App() {
     <BrowserRouter>
     <NoteState>
       <Navbar/>
-      <Alert message={"this is amazing react appliation"}/>
       <div className="container">
       <Routes>
         <Route exact path="/" element={<Home />} />

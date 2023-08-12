@@ -6,6 +6,7 @@ const NoteState = (props) =>{
   const initailState = []
   const [state, setState] = useState(initailState);
 
+
   
   const getNotes = async () =>{
     const response = await fetch(`${host}/api/notes/fetchallnotes`, {
@@ -30,11 +31,18 @@ const NoteState = (props) =>{
        
       },
       body: JSON.stringify({"title": title,"description": description, "tag": tag}), 
-    });
-    // const json =  await response.json(); 
-    console.log(response, title, description, tag)
+    })
+
       getNotes();
+
   }
+
+  
+  // let resettingAddNotes = addNote();
+  // console.log(resettingAddNotes)
+
+
+
   const deleteNote = async (id) =>{
     console.log("delete notes with id " + id)
     const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
@@ -74,6 +82,5 @@ const NoteState = (props) =>{
   )
   
 }
-
 
 export default NoteState

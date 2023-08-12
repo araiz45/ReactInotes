@@ -49,19 +49,19 @@ export const Notes = () => {
                     Title
                   </label>
                   <input type="text" className="form-control" name="utitle" id="update-title" aria-describedby="textHelp"
-                    onChange={onChange} value={note.utitle}/>
+                    onChange={onChange} value={note.utitle} required minLength={5}/>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="description" className="form-label">
                     Description
                   </label>
-                  <input type="text" className="form-control" id="udescription" name="udescription" onChange={onChange} value={note.udescription}/>
+                  <input type="text" className="form-control" id="udescription" name="udescription" onChange={onChange} value={note.udescription} required minLength={5}/>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="tag" className="form-label">
                     tag
                   </label>
-                  <input type="text" className="form-control" id="update-tag" name="utag" onChange={onChange} value={note.utag}/>
+                  <input type="text" className="form-control" id="update-tag" name="utag" onChange={onChange} value={note.utag} required minLength={3}/>
                 </div>
               </form>
             </div>
@@ -69,7 +69,7 @@ export const Notes = () => {
               <button type="button" hidden className="btn btn-secondary" ref={closeRef} data-bs-dismiss="modal">
                 Close
               </button>
-              <button type="button" className="btn btn-primary" onClick={handleClick}>
+              <button type="button" disabled={note.utitle < 3 || note.udescription > 5} className="btn btn-primary" onClick={handleClick}>
                 Update note
               </button>
             </div>
@@ -78,6 +78,9 @@ export const Notes = () => {
       </div>
       <div className="row my-3 gap-3 text-center justify-content-center">
         <h2>Your notes</h2>
+        <div style={{fontStyle: "italic"}}>
+          {state.length === 0 &&'No notes to display'}
+        </div>
         {state.map((note) => {
           return (
             <NoteItem note={note} updateNote={updateNotes} key={note._id} />
