@@ -1,7 +1,10 @@
-import React , { useRef } from 'react'
+import React , { useRef, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
+import noteContext from "../context/notes/NoteContext";
 
 const Login = () => {
+    const context = useContext(noteContext);
+    const { checkLogin } = context;
     let navigate = useNavigate();
     const password = useRef(null)
     const email = useRef(null)
@@ -20,6 +23,7 @@ const Login = () => {
             if(value.success){
                 localStorage.setItem("token", value.authToken);
                 navigate('/');
+                checkLogin()
             }else{
                 alert("invalid credentails")
             }
